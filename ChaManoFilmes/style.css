@@ -4,6 +4,8 @@
     box-sizing: border-box;
     font-family: 'Courier New', Courier, monospace ;
 }
+
+/* tem que fazer o media query pra max-width :530px */
 body{
     background-color: rgb(0, 0, 20);
 }

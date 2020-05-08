@@ -1,21 +1,19 @@
 const chave = '96988444ffe703373ca42f07efb5b6fc'
 const baseURL = 'https://api.themoviedb.org/3/'
 
-let config = () =>{
+let config = async() =>{
+    try{
     let url = `${baseURL}configuration?api_key=${chave}`
-    fetch(url).then((res)=>{return res.json()})
-            .then((data)=>{
-                console.log('config:',data)
-                console.log('configurou')
-                //pesquisa('The Shining')
-            })
-            .catch(err=>{
-                return alert(err)
-            })
+    const confgApi= await fetch(url)
+    const configuracao =await confgApi.json()
+    console.log("configurações da api:",configuracao)
+    }catch(err){
+      naoAcho('erro na api')
+    }
 }
 
 
-const DB = [{
+const resultados = [{
     'title':"<div class='spinner'></div>",
     'vote_average':"<div class='spinner'></div>",
     'release_date':"<div class=''></div>",
@@ -23,6 +21,7 @@ const DB = [{
     'overview':"<div class=''></div>"
     
 }]
+
 
 
 document.addEventListener('DOMContentLoaded', config);
@@ -33,10 +32,8 @@ const preenche = (resultados) =>{
 
     for($i=0; $i<=resultados.length;$i++){
      // preenche(DB[0])
-        resultados[$i].poster_path ? resultados[$i].poster_path : ()=>{
-            conteinerzinho.classList.add('esconde')
-        }
-        
+     
+        resultados[$i].poster_path ? console.log('sim') : document.getElementsByClassName('conteinerzinho').esconde
         const panel= `
             <div class='conteinerzinho'>
                 <div class='filme'>
@@ -58,7 +55,7 @@ const preenche = (resultados) =>{
                             </div>
                             <div id="overlay"></div>                                                  
                     </div>
-                    <img src='https://image.tmdb.org/t/p/w300/${resultados[$i].poster_path}' alt='${resultados[$i].original_title}'><img/>
+                    <img src='https://image.tmdb.org/t/p/w300/${resultados[$i].poster_path }' alt='${resultados[$i].original_title}'><img/>
                 </div>
             </div>  
         `
@@ -67,10 +64,7 @@ const preenche = (resultados) =>{
         $container.innerHTML = panel;
         const $info = document.getElementById('movies');
         $info.appendChild($container);
-        // const img = `https://image.tmdb.org/t/p/w300/${resultados[$i].poster_path}`==undefined ? sumir() :` <img src='https://image.tmdb.org/t/p/w300/${resultados[$i].poster_path}' alt='${resultados[$i].original_title}'><img/>`
-        // if($i>=8){
-        //     $info.classList.add("esconde")
-        // }
+      
         const openModalButtons = document.querySelectorAll('[data-modal-target]')
         const closeModalButtons = document.querySelectorAll('[data-close-button]')
         const overlay = document.getElementById('overlay')
@@ -119,25 +113,26 @@ const preenche = (resultados) =>{
 
 
 const pesquisa = async (palavraChave) =>{
-    //    try {
+
         let url = `${baseURL}search/movie?api_key=${chave}&language=pt-br&query=${palavraChave}`
         let headers= new Headers ({
             'Accept': 'application/json'
         })
         const pegaApi = await fetch(url,headers).then((res)=>{return res.json()})   
         let resultados = pegaApi.results
-        resultados ? preenche(resultados) : console.log('ops, não foi encontrado')
-         
-    // } catch (undefined) {
-       
-    //     const output=`
-    //         <div class='erro'>
-    //             <h1></h1>
-    //         </div>
-    //     `
-    //     const $erro= document.createElement('div')
-    //     $erro.innerHTML = output
-    //     const $info = document.getElementById('movies');
-    //     $info.appendChild($erro)
-    // }   
+        resultados ? preenche(resultados) : naoAcho(palavraChave)
+           
     }
+
+
+  const naoAcho = (palavraChave) =>{
+    const  output = `
+      <div class="erro">
+        <h1>Desculpe ${palavraChave} não foi encontrado </h1>
+      </div>
+    `
+    const $erro = document.createElement('div') 
+    $erro.innerHTML = output
+    const $saierro =document.getElementById('movies')
+    $saierro.appendChild($erro)
+  }
