@@ -14,13 +14,14 @@ body{
     --texto1:rgba(300,200,300, 0.621);
 }
 ::-webkit-scrollbar-track {
-    background-color: var(--detalhe);
+    background-color: transparent;
 }
 ::-webkit-scrollbar {
-    width: 10px;
-    background: rgb(0, 0, 0);
+    width: 15px;
+    background: transparent;
 }
 ::-webkit-scrollbar-thumb {
+    border-radius: 20px;
     background: var(--texto1) ;
 }
 h1,footer{

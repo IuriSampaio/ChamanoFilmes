@@ -28,7 +28,8 @@ ________________________________________________________________________________
 - Esse json possui a base da url nescessaria para se trabalhar com a base de imagens (protocolo http para trabalhar com a imagem base_url)
 - Após escolher a base da url em http ou https, deve-se escolher o tamanho da imagem que poder ser o poster o filme, uma cena, etc..
 - Para escolher qual desses tipos de imagem do filme se vai trabalhar, basta fazer uma requisição de pesquisa qualquer a api, para ver  como se retornam os dados..
-__________________________________________________________________________________________________________________________________
+- link para requisição de uma pesquisa para retorno dos dados: https://api.themoviedb.org/3/search/movie?api_key=CHAVEAPI&language=pt-br&query=NOMEFILME
+_________________________________________________________________________________________________________________________________
 - Exemplo de retorno de dados a uma pesquisa: 
 ###### [
 ###### 0:

@@ -8,32 +8,29 @@ let config = async() =>{
     const configuracao =await confgApi.json()
     console.log("configurações da api:",configuracao)
     }catch(err){
-      naoAcho('erro na api')
+      console.warn('erro na api')
     }
 }
 
-
 const resultados = [{
-    'title':"<div class='spinner'></div>",
-    'vote_average':"<div class='spinner'></div>",
+    'title':"<div class=''></div>",
+    'vote_average':"<div class=''></div>",
     'release_date':"<div class=''></div>",
-    'poster_path':"<div class=''></div>",
+    'poster_path':"<div class='spinner'></div>",
     'overview':"<div class=''></div>"
     
 }]
 
-
-
-document.addEventListener('DOMContentLoaded', config);
-
+const esconde = (i) =>{
+  i.classList.add(spinner)
+}
 
 const preenche = (resultados) =>{
-    //$info.removeChild($info.firstChild)
+  //  $info.removeChild($info.firstChild)
 
     for($i=0; $i<=resultados.length;$i++){
-     // preenche(DB[0])
      
-        resultados[$i].poster_path ? console.log('sim') : document.getElementsByClassName('conteinerzinho').esconde
+        resultados[$i].poster_path ? console.log('EXISTE IMG') : esconde(resultados[$i].poster_path)
         const panel= `
             <div class='conteinerzinho'>
                 <div class='filme'>
@@ -90,13 +87,13 @@ const preenche = (resultados) =>{
           })
         })
         
-        function openModal(modal) {
+        const openModal = (modal) => {
           if (modal == null) return
           modal.classList.add('active')
           overlay.classList.add('active')
         }
         
-        function closeModal(modal) {
+        const closeModal = (modal) => {
           if (modal == null) return
           modal.classList.remove('active')
           overlay.classList.remove('active')
@@ -110,22 +107,25 @@ const preenche = (resultados) =>{
 //  palavraChave.addEventListener("change", console.log(palavraChave))
 } 
 
-
-
 const pesquisa = async (palavraChave) =>{
+  
+          let url = `${baseURL}search/movie?api_key=${chave}&language=pt-br&query=${palavraChave}`
+          let headers= new Headers ({
+              'Accept': 'application/json'
+          })
+        try{
+          const pegaApi = await fetch(url,headers)
+          const json = await pegaApi.json()
+          const resultados = json.results
+          resultados ? preenche(resultados) : naoAcho(palavraChave)
+          resultados.removeChild(resultados)
+        }catch{
+          console.warn('tem algo errado, só não sei oque kkk')
+        }   
+}
 
-        let url = `${baseURL}search/movie?api_key=${chave}&language=pt-br&query=${palavraChave}`
-        let headers= new Headers ({
-            'Accept': 'application/json'
-        })
-        const pegaApi = await fetch(url,headers).then((res)=>{return res.json()})   
-        let resultados = pegaApi.results
-        resultados ? preenche(resultados) : naoAcho(palavraChave)
-           
-    }
 
-
-  const naoAcho = (palavraChave) =>{
+const naoAcho = (palavraChave) =>{
     const  output = `
       <div class="erro">
         <h1>Desculpe ${palavraChave} não foi encontrado </h1>
@@ -135,4 +135,6 @@ const pesquisa = async (palavraChave) =>{
     $erro.innerHTML = output
     const $saierro =document.getElementById('movies')
     $saierro.appendChild($erro)
-  }
+}
+//preenche(resultados)
+document.addEventListener('DOMContentLoaded', config);
