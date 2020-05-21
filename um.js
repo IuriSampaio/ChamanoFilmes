@@ -113,15 +113,15 @@ const pesquisa = async (palavraChave) =>{
           let headers= new Headers ({
               'Accept': 'application/json'
           })
-        try{
-          const pegaApi = await fetch(url,headers)
-          const json = await pegaApi.json()
-          const resultados = json.results
-          resultados ? preenche(resultados) : naoAcho(palavraChave)
-          resultados.removeChild(resultados)
-        }catch{
-          console.warn('tem algo errado, só não sei oque kkk')
-        }   
+          try{
+            const pegaApi = await fetch(url,headers)
+            const json = await pegaApi.json()
+            const resultados = json.results
+            resultados ? preenche(resultados) : naoAcho(palavraChave)
+            resultados.removeChild(resultados)
+          }catch{
+            console.warn('tem algo errado, só não sei oque kkk')
+          }   
 }
 
 
