@@ -1,18 +1,19 @@
+:root{
+    --detalhe:  darkslateblue;
+    --bg-color: rgb(0, 0, 20);
+    --texto1:     rgba(300,200,300, 0.621);
+    --bg-hover: #000000ce;
+}
 *{
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
     font-family: 'Courier New', Courier, monospace ;
 }
-
-/* tem que fazer o media query pra max-width :530px */
 body{
-    background-color: rgb(0, 0, 20);
+    background-color: var(--bg-color);
 }
-:root{
-    --detalhe:darkslateblue;
-    --texto1:rgba(300,200,300, 0.621);
-}
+/* SCROOL EDIÇÃO  */
 ::-webkit-scrollbar-track {
     background-color: transparent;
 }
@@ -104,12 +105,6 @@ header{
 .conteinerGG{ 
     height: 97vh; 
 }
-/* .teste{
-    width: 200px;
-    height: 300px;
-    background-color: chartreuse;
-       
-} */
 .esconde{
     display: none;
 }
@@ -125,8 +120,8 @@ header{
     position: absolute;
 }
 .sobre{
-    background-color: #000000ce;
-    color: #ffffff;
+    background-color: var(--bg-hover);
+    color: var(--texto1);
     position: absolute;
     opacity: 0;
     width: inherit;
@@ -145,7 +140,7 @@ header{
     color: var(--detalhe);
     text-align: center;
 }
-.conteinerzinho>.esconde{
+.esconde{
     display: none;
 }
 img{
@@ -155,7 +150,7 @@ button{
     width: 50%;
     height: 30px;
     border-radius: 10px;
-    border: 1px solid rgb(0, 0, 20);
+    border: 1px solid var(--bg-color);
     background-color: var(--detalhe);
     color: var(--texto1);
     margin: 20px;
@@ -170,66 +165,71 @@ footer>span{
     justify-content: end;
     box-sizing: border-box;
 }
+
+
+/* MODAL */
   
-  .modal {
+.modal {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     transition: 200ms ease-in-out;
-    border: 1px solid black;
+    border: 1px solid var(--texto1);
     border-radius: 10px;
     z-index: 10;
-    background-color: white;
+    background-color: var(--detalhe);
     width: 500px;
     max-width: 80%;
-  }
+}
   
-  .modal.active {
+.modal.active {
     transform: translate(-50%, -50%) scale(1);
-  }
+}
   
-  .modal-header {
-    padding: 10px 15px;
+.modal-header {
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid black;
-  }
+}
   
-  .modal-header .title {
-    font-size: 1.25rem;
+.modal-header .title {
+    font-size: 25px;
     font-weight: bold;
-    color: #000000ce;
-  }
+    color: var(--bg-color);
+}
   
-  .modal-header .close-button {
+.modal-header .close-button {
     cursor: pointer;
     border: none;
     outline: none;
     background: none;
-    font-size: 1.25rem;
+    font-size: 30px;
     font-weight: bold;
   }
   
-  .modal-body {
+.modal-body {
     padding: 10px 15px;
-    color: rgb(0, 0, 20);
+    font-size: x-large;
+    color: var(--texto1);
+    overflow-y: scroll;
   }
   
-  #overlay {
+#overlay {
     position: fixed;
     opacity: 0;
-    transition: 200ms ease-in-out;
+    transition:2000ms linear;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: var(--bg-hover);
     pointer-events: none;
   }
   
-  #overlay.active {
+#overlay.active {
     opacity: 1;
     pointer-events: all;
   }
