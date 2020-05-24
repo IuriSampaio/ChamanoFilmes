@@ -1,9 +1,13 @@
+// chave e url base da API tmdb
 const chave = '96988444ffe703373ca42f07efb5b6fc';
 const baseURL = 'https://api.themoviedb.org/3/';
-
-let palavraChave = document.getElementById("palavraChave");
+// pegando elementos do html
+const form = document.getElementById("form") 
 const $info = document.getElementById('movies');
-
+// fazendo função pra limpar a tela a cada requisição da api
+const esconde = ( $i )  =>  $i.style.display = "none";
+const limpaTela = ( ) => esconde($info.parentElement.lastChild.previousSibling);
+// função de configuração da api
 let config = async ( ) => {
     try{
     let url = `${baseURL}configuration?api_key=${chave}`
@@ -14,20 +18,7 @@ let config = async ( ) => {
       console.warn('erro na api')
     }
 }
-const pesquisa = async ( ) => {
-  let url = `${baseURL}search/movie?api_key=${chave}&language=pt-br&query=${palavraChave.value.trim()}`
-  let headers= new Headers ({
-      'Accept': 'application/json'
-  })
-  try{
-    const pegaApi = await fetch(url,headers)
-    const json = await pegaApi.json()
-    const resultados = json.results
-    return resultados ? preenche(resultados) : naoAcho(palavraChave)
-  }catch{
-    console.warn('Alguns resultados estão incompletos')
-  }   
-}
+// default como spinner enquanto carrega a api
 const resultados = [{
     'title':"<div class=''></div>",
     'vote_average':"<div class=''></div>",
@@ -36,11 +27,8 @@ const resultados = [{
     'overview':"<div class=''></div>"
     
 }]
-const esconde = ( $i )  =>  $i.style.display = "none"
-
+// função que preenche a tela com com os resultados estregados pela api
 const preenche = ( resultados ) => {
-        // esconde($info.parentElement.lastChild.previousSibling)//esse caminho faz todos os filmes desaparecerem
-
     for($i=0; $i<=resultados.length;$i++){
         resultados[$i].poster_path ? console.log('EXISTE IMG') : esconde(resultados[$i].poster_path)
 
@@ -71,15 +59,13 @@ const preenche = ( resultados ) => {
         `
        
         const $container= document.createElement('div');
-        $container.innerHTML = panel;
-        
+        $container.innerHTML = panel;        
         $info.appendChild($container);
-
-        
         modal()
     }
 
-} 
+}
+// função usada quando não se encontra a palavra chave digitada 
 const naoAcho = ( palavraChave ) => {
     const  output = `
       <div class="erro">
@@ -91,6 +77,7 @@ const naoAcho = ( palavraChave ) => {
     const $saierro =document.getElementById('movies')
     $saierro.appendChild($erro)
 }
+// função de configuração do modal 
 const modal = ( ) => {
 
   const openModalButtons = document.querySelectorAll('[data-modal-target]')
@@ -130,11 +117,31 @@ const modal = ( ) => {
     overlay.classList.remove('active')
   }
 }
-
+teste = -1;
+// carregando a função de configuração da api quando a tela carregar 
 document.addEventListener('DOMContentLoaded', config);
-palavraChave.addEventListener('keypress',pesquisa)
+// função main chamanda quando acontece o submit do form ( foi dificil achar como faz isso ein )
+// limpar a tela  toda vez que ouver uma requisição da api
+ // ainda não consegui fazer isso --- AJUDA
 
-
-   
-
- 
+form.addEventListener('submit', async(e)=>{
+  teste = teste + 1
+    e.preventDefault();   
+    let palavraChave = document.getElementById("palavraChave").value;
+    let url = `${baseURL}search/movie?api_key=${chave}&language=pt-br&query=${palavraChave.trim()}`
+    let headers= new Headers ({
+        'Accept': 'application/json'
+    })
+    try{
+      const pegaApi = await fetch(url,headers)
+      const json = await pegaApi.json()
+      const resultados = json.results
+      return resultados ? preenche(resultados) : naoAcho(palavraChave)
+    }catch{
+      console.warn('Alguns resultados estão incompletos')
+    }
+  }) 
+  if (teste == 1){
+    limpaTela();
+    teste = teste - 1
+  }
