@@ -2,7 +2,7 @@
 ##### Projeto programação web front end | Profesor Fernando Leonid | SENAI Jandira
 ____________________________________________________________________________________________________________________________________
 
-![thr movie database](./ChaManoFilmes/images/tmdb.jpg)
+![the movie database](./images/tmdb.jpg)
 
 ____________________________________________________________________________________________________________________________________
 
